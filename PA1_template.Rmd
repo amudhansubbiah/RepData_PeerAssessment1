@@ -1,3 +1,18 @@
+---
+title: "PA1_template.html"
+output: html_document
+keep_md: yes
+---
+```{r, echo= TRUE}
+
+library(knitr)
+library(ggplot2)
+library(plyr)
+library(dplyr)
+
+setwd("G:/amudhan/Coursera/Reproducible_research")
+
+
 activity <- read.csv("activity.csv", header = TRUE, stringsAsFactors = FALSE)
 str(activity)
 
@@ -15,12 +30,13 @@ sum(is.na(as.character(activity$Date)) )
 sum(is.na(activity$interval))
 act_nan<- activity[which(!is.na(activity$steps)),]
 str(act_nan)
-act_nan
+
 head(act_nan)
 
-mean(perday_stps$steps, na.rm = TRUE) ###10766.19
 
 perday_stps<-aggregate(steps ~ date, act_nan , sum)
+mean(perday_stps$steps, na.rm = TRUE) ## 10766.19
+
 head(perday_stps)
 
 ggplot(perday_stps, aes(x= steps)) +
@@ -29,7 +45,7 @@ ggplot(perday_stps, aes(x= steps)) +
   ylab("frequency")
 
 
-mean(perday_stps$steps, na.rm = TRUE) ###10766.19
+mean(perday_stps$steps, na.rm = TRUE) ## 10766.19
 median(perday_stps$steps, na.rm = TRUE)
 
 
@@ -44,7 +60,7 @@ ggplot(avg_intr_stpes , aes(interval, steps, color = "red")) +
 head(avg_intr_stpes)
 max(avg_intr_stpes$steps)
 
-sum(is.na(activity$steps))   ##2304
+sum(is.na(activity$steps))   ## 2304
 
 sum(is.na(activity))
 head(activity)
@@ -55,7 +71,7 @@ act_nona[which(is.na(activity$steps)),1]<- mean(act_nona$steps, na.rm = TRUE)
 sum(is.na(act_nona))
 max(act_nona$interval)
 
-sum(is.na(activity$steps))   ##2304
+sum(is.na(activity$steps))   ## 2304
 
 sum(is.na(activity))
 head(activity)
@@ -115,5 +131,8 @@ head(act_nona)
 act_weekty<- aggregate(steps ~ interval + wk_typ , act_nona , mean)
 ggplot(act_weekty, aes(x=interval,y=steps ,color =wk_typ)) +
   geom_line() + ggtitle( "Daily Activity Pattern on Weekday & Weekend ") +
-  ##ylab("Average number of steps")
   facet_wrap(~wk_typ, ncol = 1, nrow=2)
+  
+ ## knit2html("PA1_template.Rmd") 
+
+```
